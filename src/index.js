@@ -1,5 +1,5 @@
-const config = {};
-const math = create(all, config);
+//const config = {};
+//const math = math.create(all, config);
 
 const upper_shift_matrix = math.matrix([
   [0, 1, 0],
