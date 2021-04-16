@@ -1,0 +1,29 @@
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+#puzzle_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#puzzle_button {
+  margin: 2px;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+#puzzle_button_on {
+  margin: 2px;
+  width: 100px;
+  height: 100px;
+  background-color: green;
+}
