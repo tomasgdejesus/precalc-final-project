@@ -1,7 +1,3 @@
-import "./styles.css";
-import { create, all } from "mathjs";
-import $ from "jQuery";
-
 const config = {};
 const math = create(all, config);
 
