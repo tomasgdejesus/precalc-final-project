@@ -8,6 +8,12 @@ body {
   font-family: sans-serif;
 }
 
+#header_title {
+  background-color: #2d3436;
+  color: #dfe6e9;
+  padding: 12px;
+}
+
 #puzzle_container {
   display: flex;
   flex-direction: column;
@@ -18,12 +24,28 @@ body {
   margin: 2px;
   width: 100px;
   height: 100px;
-  background-color: red;
+  background-color: #fdcb6e;
 }
 
 #puzzle_button_on {
   margin: 2px;
   width: 100px;
   height: 100px;
-  background-color: green;
+  background-color: #636e72;
+}
+
+#main_container {
+  flex-direction: column;
+}
+
+#eq_O {
+  color: #e17055;
+}
+
+#eq_U {
+  color: #0984e3;
+}
+
+#eq_L {
+  color: #d63031;
 }

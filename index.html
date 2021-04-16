@@ -1,19 +1,161 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Parcel Sandbox</title>
-    <h1>PreCalc Final Project</h1>
-    <meta charset="UTF-8" />
+    <title>PreCalc Final Project</title>
+    <h1 id="header_title">PreCalc Final Project</h1>
+    <meta charset="UTF-8"/>
 
     <link rel="stylesheet" href="src/styles.css">
 
     <script src="src/math.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
 
   <body>
     <div id="main_container">
+      <h2>Matrices and the Lights Out Puzzle</h2>
+      <h4>Interactive!</h4>
       <div id="puzzle_container"></div>
+      <button id="reset_puzzle_button">Reset</button>
+      <h3>
+        Operation: \( f(X)=\)
+        <span id="eq_placeholder">\(...\)</span>
+        <span id="eq_other_section" style="display: none;">\( (X + [\)<span id="eq_op_section"></span>\(])^{abs} \)</span>
+      </h3>
     </div>
+
+    <hr>
+
+    <p style="font-size: 24px;"><span id="eq_O">\(O\) </span>\(=\begin{bmatrix}
+      0 & -1 & 0\\ 
+      -1 & -1 & -1\\ 
+      0 & -1 & 0
+      \end{bmatrix}\)</p>
+    <p style="font-size: 24px;"><span id="eq_U">\(U\) </span>\(=\begin{bmatrix}
+      0 & 1 & 0\\ 
+      0 & 0 & 1\\ 
+      0 & 0 & 0
+      \end{bmatrix}\)</p>
+    <p style="font-size: 24px;"><span id="eq_L">\(L\) </span>\(=\begin{bmatrix}
+      0 & 0 & 0\\ 
+      1 & 0 & 0\\ 
+      0 & 1 & 0
+      \end{bmatrix}\)</p>
+
+    <hr>
+
+    <p>My project was about recreating the "Lights Out" Puzzle in a way
+      that could be represented extremely easily through mathematics.
+      <br><br>
+      There are only a few main components of \(f(X)\)
+      <br><br>
+      \(O\) represents the matrix responsible for the basic operation that
+      is done when you click on one of the squares. In this puzzle, clicking on
+      a square will result in that one changing its state (on->off, off->on) and
+      also changing the adjacent squares' states. There are only two states in
+      this puzzle: on and off. Numerically, these two states can be represented
+      numerically as 0 (to represent the off state)
+      and 1 (to represent the on state).<br>
+      \(O=\begin{bmatrix}
+      0 & -1 & 0\\ 
+      -1 & -1 & -1\\ 
+      0 & -1 & 0
+      \end{bmatrix}\)<br>
+      If \(X_{2,2}\) was the square you clicked on, then adding \(O\) to
+      \(X\) would properly do that operation. For example,
+      \[O+X=\begin{bmatrix}
+      0 & -1 & 0\\ 
+      -1 & -1 & -1\\ 
+      0 & -1 & 0
+      \end{bmatrix}+\begin{bmatrix}
+      0 & 0 & 1\\ 
+      1 & 1 & 0\\ 
+      0 & 0 & 1
+      \end{bmatrix}=\begin{bmatrix}
+      0 & -1 & 1\\ 
+      0 & 0 & -1\\ 
+      0 & -1 & 1
+      \end{bmatrix}\]
+      And now take the absolute value<br>
+      \[\begin{bmatrix}
+      0 & -1 & 1\\ 
+      0 & 0 & -1\\ 
+      0 & -1 & 1
+      \end{bmatrix}^{abs}=\begin{bmatrix}
+      0 & 1 & 1\\ 
+      0 & 0 & 1\\ 
+      0 & 1 & 1
+      \end{bmatrix}\]
+      <div>
+        <img src="img/p1.png" width=200 height=200>
+        <p> \(\longrightarrow\) </p>
+        <img src="img/p2.png" width=200 height=200>
+      </div>
+      However, \(O\) has to be changed in order to do the operations for the
+      other squares. This is achievable by using shift matrices. One other
+      alternative could have been to use rotation matrices, but you would need
+      to develop a new strategy for puzzles that are larger than a 3x3 matrix.
+      Creating nine different versions of the operation matrix \(O\) to fit
+      each of the different positions would become very tedious. Instead, the
+      most efficient and simple solution is to use shift matrices to "translate"
+      the operation matrix. That way, there would be no need to individually
+      write every possibility.<br><br>
+      \(U\) and \(L\) are both shift matrices. \(U\) is the upper shift matrix,
+      meaning that it is equal to the identity matrix but already translated up
+      by one. \(L\) is the lower shift matrix, which is pretty much the same as
+      the upper shift matrix but going one down instead. Here is how they work:
+      <ul>
+        <li>\(U \times M = \) M translated one row up</li>
+        <li>\(M \times U = \) M translated one column right</li>
+        <li>\(L \times M = \) M translated one row down</li>
+        <li>\(M \times L = \) M translated one column left</li>
+      </ul>
+      For example,
+      \[M = \begin{bmatrix}
+      0 & 0 & 0\\ 
+      0 & 1 & 0\\ 
+      0 & 0 & 0
+      \end{bmatrix}\]
+      \[U \times M \times L =
+      \begin{bmatrix}
+      0 & 1 & 0\\ 
+      0 & 0 & 1\\ 
+      0 & 0 & 0
+      \end{bmatrix} \times
+      \begin{bmatrix}
+      0 & 0 & 0\\ 
+      0 & 1 & 0\\ 
+      0 & 0 & 0
+      \end{bmatrix} \times
+      \begin{bmatrix}
+      0 & 0 & 0\\ 
+      1 & 0 & 0\\ 
+      0 & 1 & 0
+      \end{bmatrix}=
+      \begin{bmatrix}
+      1 & 0 & 0\\ 
+      0 & 0 & 0\\ 
+      0 & 0 & 0
+      \end{bmatrix}\]
+      M is translated one row up \(U \times M\) and then M is translated one
+      column to the left \(M \times L\).<br>
+      Now, try that with the operation matrix \(O\).<br>
+      <div>
+        <p>\(O\) Before</p>
+        <img src="img/p3.png">
+        <p>\(O\) After</p>
+        <img src="img/p4.png">
+      </div>
+      This shows that the lights out puzzle can be recreated purely in
+      mathematics in a simple and easy to understand way.<br>
+      <br>
+      <hr>
+      <br>
+      <div>
+        <b>Created by Tomas De Jesus</b>
+      </div>
+    </p>
 
     <script src="src/index.js"></script>
   </body>
